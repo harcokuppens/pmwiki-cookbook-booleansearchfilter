@@ -48,7 +48,6 @@ mycookbookdir="$COOKBOOK"
 extra_dirs=()
 while [[ "$1" == "-d" ]]; do
    extra_dirs+=( $2 )
-   echo dir:$2
    shift 2
 done
 
