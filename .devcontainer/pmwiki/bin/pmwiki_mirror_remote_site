@@ -3,7 +3,7 @@
 USAGE="
 USAGE 
 
-    pmwiki_remote_ssh_import USER@REMOTEHOST:REMOTEPMWIKIDIR
+    pmwiki_mirror_remote_site USER@REMOTEHOST:REMOTEPMWIKIDIR
 
 DESCRIPTION
 
@@ -45,10 +45,19 @@ mycookbookdir="$COOKBOOK"
 # set the remote ssh location to fetch pmwiki from
 #remotewiki="USER@REMOTEHOST:REMOTEDIR"
 
+extra_dirs=()
+while [[ "$1" == "-d" ]]; do
+   extra_dirs+=( $2 )
+   echo dir:$2
+   shift 2
+done
+
+
 if [[ "$#" != "1" ]]; then
     echo "$USAGE"
     exit 1
 fi
+
 
 if [[ -z "$COOKBOOK" ]]; then
     echo "ERROR: unset COOKBOOK environment variable; it must be set to your cookbook's name!" 1>&2
@@ -88,8 +97,9 @@ rsync_options='--max-size=0.5m --chmod=ugo-x,u=rw,g=rw,o=rw,Dugo+x'
 #     RUN usermod -s /bin/bash www-data
 
 
+echo  mirror remote website subdirs wiki.d/ uploads/ local/ cookbook/  pub/ "${extra_dirs[@]}"
+
 # mirror page data
-echo mirror --no-warn --rsync-options "$rsync_options" $remotewiki/wiki.d $localwikidir/wiki.d
 mirror --no-warn --rsync-options "$rsync_options" $remotewiki/wiki.d $localwikidir/wiki.d
 mirror --no-warn --rsync-options "$rsync_options" $remotewiki/uploads $localwikidir/uploads
 
@@ -100,4 +110,7 @@ mirror --no-warn --rsync-options "$rsync_options" $remotewiki/local $localwikidi
 mirror --no-warn --rsync-options "$rsync_options" -f "- $mycookbookdir" $remotewiki/cookbook $localwikidir/cookbook
 mirror --no-warn --rsync-options "$rsync_options" -f "- $mycookbookdir" $remotewiki/pub $localwikidir/pub
 
-
+for extra_dir in "${extra_dirs[@]}"
+do
+    mirror --no-warn --rsync-options "$rsync_options" "$remotewiki/$extra_dir" "$localwikidir/$extra_dir"
+done
