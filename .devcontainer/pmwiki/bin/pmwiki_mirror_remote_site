@@ -3,7 +3,6 @@
 USAGE="
 USAGE 
 
-    pmwiki_mirror_remote_site [-d SUBDIR]* USER@REMOTEHOST:REMOTEPMWIKIDIR
     pmwiki_mirror_remote_site [-d SUBDIR]* [-c COOKBOOKNAME]* [-s MAXSIZE] [-l LOCALPMWIKIDIR]  USER@REMOTEHOST:REMOTEPMWIKIDIR 
 
 DESCRIPTION
