@@ -1,16 +1,22 @@
-Instructions: 
-1) fill in the variables $COOKBOOK en $COOKBOOK_GITHUB_URL
-2) add extra description for the cookbook
 
-# $COOKBOOK cookbook for PmWiki 
+---
+
+This is a template of your cookbook's homepage. Instructions: 
+
+1) add short description for the cookbook
+2) fill in the variables $COOKBOOK_NAME en $COOKBOOK_REPO_URL
+
+---
+
+
+# $COOKBOOK_NAME cookbook for PmWiki 
 
 ## Description
 
-The $COOKBOOK  cookbook is a plugin for PmWiki which  ....
+<PUT HERE SHORT DESCRIPTION OF COOKBOOK; DETAILS ARE AT RECIPE PAGE>
 
-The details of the ImagePopup cookbook are described on the [$COOKBOOK  cookbook's description page](https://www.pmwiki.org/wiki/Cookbook/$COOKBOOK ). 
-The source code of the $COOKBOOK  plugin is at $COOKBOOK_GITHUB_URL , which also provides
-a devcontainer in which you can see the plugin in action and further develop it. The devcontainer is based on the basic pmwiki devcontainer at https://github.com/harcokuppens/pmwiki-basic.
+The details of this cookbook are described on [the cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/$COOKBOOK_NAME ). The source code of this cookbook is at 
+[the cookbook's repository](https://$COOKBOOK_REPO_URL), which also provides a devcontainer in which you can see the plugin in action and further develop it. The devcontainer is based on the basic pmwiki devcontainer at https://github.com/harcokuppens/pmwiki-basic.
 
 ## Devcontainer
 
