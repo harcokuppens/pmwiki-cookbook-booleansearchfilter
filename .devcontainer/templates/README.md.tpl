@@ -36,7 +36,7 @@ Then at the wiki's HomePage the cookbook should already be shown in action.
 
 ### Credentials
 
-To play with the cookbook's PmWiki you can login and edit the HomePage.
+To play with the cookbook's code in the page you can login and edit the HomePage.
 
 By default we already configure two accounts in `data/local/config.php`:
 
