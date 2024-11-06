@@ -24,8 +24,8 @@ services:
       # - "127.0.0.1:443:443" # needs NET_BIND_SERVICE and needs vmnetd service(macos) running because priviliged port to specific interface
       - "127.0.0.1:8080:80" # does NOT need vmnetd service(macos) nor NET_BIND_SERVICE (because none-priviliged port)
       - "127.0.0.1:8443:443" # does NOT need vmnetd service(macos) nor NET_BIND_SERVICE (because none-priviliged port)
-    cap_add:
-      - NET_BIND_SERVICE
+    # cap_add:
+    #  - NET_BIND_SERVICE
     environment:
       - COOKBOOK=${CONFIG_COOKBOOK_NAME_LC}
     # https://docs.docker.com/reference/compose-file/services/#user
