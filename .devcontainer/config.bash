@@ -6,4 +6,4 @@ export CONFIG_COOKBOOK_AUTHOR="unknown"
 
 # get lowercase for cookbook name
 CONFIG_COOKBOOK_NAME_LC=$(echo "$CONFIG_COOKBOOK_NAME" | tr '[:upper:]' '[:lower:]')
-export CONFIG_COOKBOOK_NAME_LC
+export CONFIG_COOKBOOK_NAME_LC="$CONFIG_COOKBOOK_NAME_LC"

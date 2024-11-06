@@ -14,8 +14,8 @@ CONFIGFILE="$script_dir/config.bash"
 source "$CONFIGFILE"
 
 # create cookbook directories
-mkdir -p "$repo_dir/data/cookbook/$CONFIG_COOKBOOK_NAME_LC"
-mkdir -p "$repo_dir/data/pub/$CONFIG_COOKBOOK_NAME_LC"
+mkdir -p "$repo_dir/data/cookbook/${CONFIG_COOKBOOK_NAME_LC}"
+mkdir -p "$repo_dir/data/pub/${CONFIG_COOKBOOK_NAME_LC}"
 
 # generate files from templates
 # - container configuration files with cookbook setup
@@ -23,7 +23,7 @@ mkdir -p "$repo_dir/data/pub/$CONFIG_COOKBOOK_NAME_LC"
 "$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/devcontainer.json.tpl >"$script_dir"/devcontainer.json
 # - configure cookbook loading and add default cookbook script
 "$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/includecookbook.php.tpl >"$repo_dir/data/local/includecookbook.php"
-"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/cookbook.php.tpl >"$repo_dir/data/cookbook/$CONFIG_COOKBOOK_NAME_LC/${CONFIG_COOKBOOK_NAME_LC}.php"
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/cookbook.php.tpl >"$repo_dir/data/cookbook/${CONFIG_COOKBOOK_NAME_LC}/${CONFIG_COOKBOOK_NAME_LC}.php"
 # - repository README
 "$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/README.md.tpl >"$repo_dir/README.md"
 # - add wiki pages to document cookbook in wiki itself
