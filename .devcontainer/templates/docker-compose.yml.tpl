@@ -1,7 +1,9 @@
 # docs: https://docs.docker.com/reference/compose-file/
-name: pmwiki
+name: pmwiki-${CONFIG_COOKBOOK_NAME_LC}-compose
 services:
   pmwiki:
+    container_name: pmwiki-${CONFIG_COOKBOOK_NAME_LC}-ctr
+    image: pmwiki-${CONFIG_COOKBOOK_NAME_LC}-img
     build:
       # context dir used in image build as root path for paths in Dockerfile
       # Path relative to this file.
