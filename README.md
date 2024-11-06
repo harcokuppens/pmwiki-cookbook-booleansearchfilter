@@ -136,13 +136,13 @@ Because the `docker exec` command by default uses the user defined in `Dockerfil
 `docker-compose.yml` the following command will open a bash shell with the `root`
 user:
 
-    docker exec -it pmwiki-pmwiki-1 bash
+    docker exec -it pmwiki-base-ctr bash
 
 However, the apache server and php code engine will operate using the `www-data`
 user. Hence, when editing via a bash shell one can better open the shell with the
 `www-data` user:
 
-    docker exec -it -u www-data pmwiki-pmwiki-1 bash
+    docker exec -it -u www-data pmwiki-base-ctr bash
 
 ## View logs
 

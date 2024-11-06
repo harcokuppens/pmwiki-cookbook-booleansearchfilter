@@ -1,7 +1,9 @@
 # docs: https://docs.docker.com/reference/compose-file/
-name: pmwiki
+name: pmwiki-base-compose
 services:
   pmwiki:
+    container_name: pmwiki-base-ctr
+    image: pmwiki-base-img
     build:
       # context dir used in image build as root path for paths in Dockerfile
       # Path relative to this file.
