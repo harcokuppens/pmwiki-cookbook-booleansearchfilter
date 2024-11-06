@@ -14,35 +14,60 @@ devcontainer in which you can see the plugin in action and further develop it. T
 devcontainer is based on the basic pmwiki devcontainer at
 https://github.com/harcokuppens/pmwiki-basic.
 
-## Devcontainer
+## Quickstart to view cookbook in action
+
+### Get cookbook in PmWiki running in devcontainer
 
 This repository defines a devcontainer with a basic pmwiki installation with the
-${CONFIG_COOKBOOK_NAME} cookbook installed. You can use this repository to see the
-cookbook in action in the devcontainer. But you can also use the devcontainer the
-further develop this cookbook in vscode.
+MyCookbook cookbook installed. You can use this repository to see the cookbook in
+action in the devcontainer by doing:
 
-There are 2 ways to start the devcontainer:
+1.  Run the container with docker using the command:
 
-### Run with docker compose (without vscode):
+        docker compose -f .devcontainer/docker-compose.yml up -d --build
 
-To just run the container do:
+2.  Then view the wiki in the browser at:
 
-     docker compose  -f .devcontainer/docker-compose.yml  up -d --build
+        http://localhost:8080
+             or
+        https://localhost:8443
 
-You can view the logs with:
+Then at the wiki's HomePage the cookbook should already be shown in action.
 
-     docker compose  -f .devcontainer/docker-compose.yml  logs -f
+### Credentials
 
-### Run by opening devcontainer with vscode
+To play with the cookbook's PmWiki you can login and edit the HomePage.
+
+By default we already configure two accounts in `data/local/config.php`:
+
+- a test user which can edit pages:
+  - username: testuser
+  - password: testuser
+- an administrator account which has all rights:
+  - username: admin
+  - password: admin
+
+## Develop cookbook in devcontainer using vscode
+
+You can use this repository to see the cookbook in action in the devcontainer, but
+you can also use the devcontainer the further develop this cookbook in vscode.
 
 In vscode you have `php` debugging support. Convenient if you want to develop a
 cookbook `php` script.
 
-Open project from folder in vscode with command
+### Open the devcontainer in vscode
+
+To open the devcontainer in vscode run the command
+
+To open the devcontainer in vscode first open the project folder in vscode, and then
+inside vscode run the command
 
     'Dev Containers: Open folder in Container...'
 
-or from command line when in folder:
+and then select the project folder.
+
+You can also open the devcontainer from the command line by going to the project
+folder and then run:
 
       code .
 
@@ -59,27 +84,6 @@ files making sure they can always be read by apache and php.
 Within vscode you can then easily edit and debug php code. The `Dockerfile` for the
 container has already buildin a `launch.json` for debugging with xdebug within
 vscode. So everything is already setup to directly debug php code.
-
-## Usage
-
-Open in browser:
-
-     http://localhost:8080
-              or
-     https://localhost:8443
-
-### Credentials
-
-PmWiki allows you to login as an user to edit pages or do any online configuration.
-
-By default we already configure two accounts in `data/local/config.php`:
-
-- a test user which can edit pages:
-  - username: testuser
-  - password: testuser
-- an administrator account which has all rights:
-  - username: admin
-  - password: admin
 
 ### Local folders are binded into container
 
