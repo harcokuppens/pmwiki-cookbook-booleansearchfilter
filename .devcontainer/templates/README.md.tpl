@@ -1,28 +1,27 @@
-
----
-
-This is a template of your cookbook's homepage. Instructions: 
-
-1) add short description for the cookbook
-2) fill in the variables $COOKBOOK_NAME en $COOKBOOK_REPO_URL
-
----
-
-
-# $COOKBOOK_NAME cookbook for PmWiki 
+# ${CONFIG_COOKBOOK_NAME} cookbook for PmWiki
 
 ## Description
 
-<PUT HERE SHORT DESCRIPTION OF COOKBOOK; DETAILS ARE AT RECIPE PAGE>
+<span style="color:red">PUT HERE A SHORT DESCRIPTION OF THE COOKBOOK. THE DETAILS ARE
+AT RECIPE PAGE.</span>
 
-The details of this cookbook are described on [the cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/$COOKBOOK_NAME ). The source code of this cookbook is at 
-[the cookbook's repository](https://$COOKBOOK_REPO_URL), which also provides a devcontainer in which you can see the plugin in action and further develop it. The devcontainer is based on the basic pmwiki devcontainer at https://github.com/harcokuppens/pmwiki-basic.
+The details of the
+${CONFIG_COOKBOOK_NAME} cookbook are described on
+[the cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/${CONFIG_COOKBOOK_NAME}).
+The source code of this cookbook is at
+[the cookbook's repository](${CONFIG_COOKBOOK_REPO_URL}), which also provides a
+devcontainer in which you can see the plugin in action and further develop it. The
+devcontainer is based on the basic pmwiki devcontainer at
+https://github.com/harcokuppens/pmwiki-basic.
 
 ## Devcontainer
 
-This repository defines a devcontainer with a basic pmwiki installation with the ImagePopup cookbook installed. You can use this repository to see the cookbook in action in the devcontainer. But you can also use the devcontainer the further develop this cookbook in vscode.
+This repository defines a devcontainer with a basic pmwiki installation with the
+ImagePopup cookbook installed. You can use this repository to see the cookbook in
+action in the devcontainer. But you can also use the devcontainer the further develop
+this cookbook in vscode.
 
-There are 2 ways  to start the devcontainer:
+There are 2 ways to start the devcontainer:
 
 ### Run with docker compose (without vscode):
 
@@ -39,7 +38,6 @@ Then open in browser:
      http://localhost:8080
               or
      https://localhost:8443
-
 
 ### Run by opening devcontainer with vscode
 

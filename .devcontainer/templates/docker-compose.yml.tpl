@@ -25,7 +25,7 @@ services:
     cap_add:
       - NET_BIND_SERVICE
     environment:
-      - COOKBOOK=${CONFIG_COOKBOOK}
+      - COOKBOOK=${CONFIG_COOKBOOK_NAME_LC}
     # https://docs.docker.com/reference/compose-file/services/#user
     # https://docs.docker.com/reference/dockerfile/#user
     #user: "www-data"
@@ -40,8 +40,8 @@ services:
         source: ../data/local/
         target: /var/www/html/pmwiki/local/
       - type: bind
-        source: ../data/cookbook/${CONFIG_COOKBOOK}
-        target: /var/www/html/pmwiki/cookbook/${CONFIG_COOKBOOK}
+        source: ../data/cookbook/${CONFIG_COOKBOOK_NAME_LC}
+        target: /var/www/html/pmwiki/cookbook/${CONFIG_COOKBOOK_NAME_LC}
       - type: bind
-        source: ../data/pub/${CONFIG_COOKBOOK}
-        target: /var/www/html/pmwiki/pub/${CONFIG_COOKBOOK}
+        source: ../data/pub/${CONFIG_COOKBOOK_NAME_LC}
+        target: /var/www/html/pmwiki/pub/${CONFIG_COOKBOOK_NAME_LC}

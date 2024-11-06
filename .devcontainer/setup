@@ -1,27 +1,29 @@
 #!/usr/bin/env bash
 
 # get paths
-script_dir=$(dirname $0)
+script_dir=$(dirname "$0")
 repo_dir=$(dirname "$script_dir")
 
+CONFIGFILE="$script_dir/config.bash"
+
 # read in config to get CONFIG_COOKBOOK set
-source "$script_dir/config.bash"
+# shellcheck disable=SC1090
+source "$CONFIGFILE"
 
 # create cookbook directories
-mkdir -p "$repo_dir/data/cookbook/$CONFIG_COOKBOOK"
-mkdir -p "$repo_dir/data/pub/$CONFIG_COOKBOOK"
+mkdir -p "$repo_dir/data/cookbook/$CONFIG_COOKBOOK_NAME_LC"
+mkdir -p "$repo_dir/data/pub/$CONFIG_COOKBOOK_NAME_LC"
 
-# initiate new cookbook with code from our default cookbook
-cp "$repo_dir/data/cookbook/mycookbook/mycookbook.php" "$repo_dir/data/cookbook/$CONFIG_COOKBOOK/${CONFIG_COOKBOOK}.php"
-
-# set cookbook in templates
-$script_dir/filltemplate $script_dir/config.bash $script_dir/docker-compose.yml.tpl
-$script_dir/filltemplate $script_dir/config.bash $script_dir/devcontainer.json.tpl
-
-#  The $repo_dir/data/local/config.php loads $repo_dir/data/local/cookbook.php to load cookbooks
-#  independent of other configuration. So we can just overwrite latter file:
-echo "<?php
-
-@include_once(\"\$FarmD/cookbook/$CONFIG_COOKBOOK/$CONFIG_COOKBOOK.php\");
-
-" >"$repo_dir/data/local/cookbook.php"
+# generate files from templates
+# - container configuration files with cookbook setup
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/docker-compose.yml.tpl >"$script_dir"/docker-compose.yml
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/devcontainer.json.tpl >"$script_dir"/devcontainer.json
+# - configure cookbook loading and add default cookbook script
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/includecookbook.php.tpl >"$repo_dir/local/includecookbook.php"
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/cookbook.php.tpl >"$repo_dir/${CONFIG_COOKBOOK_NAME_LC}.php"
+# - repository README
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/README.md.tpl >"$repo_dir/README.md"
+# - add wiki pages to document cookbook in wiki itself
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/Main.SideBar.tpl >"$repo_dir/data/wiki.d//Main.SideBar"
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/Main.HomePage.tpl >"$repo_dir/data/wiki.d//Main.HomePage"
+"$script_dir"/filltemplate "$CONFIGFILE" "$script_dir"/templates/Main.Recipe.tpl >"$repo_dir/data/wiki.d//Main.${CONFIG_COOKBOOK_NAME}"
