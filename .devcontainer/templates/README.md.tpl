@@ -38,7 +38,7 @@ Then at the wiki's HomePage the cookbook should already be shown in action.
 
 To play with the cookbook's code in the page you can login and edit the HomePage.
 
-By default we already configure two accounts in `data/local/config.php`:
+By default we already configured two accounts in `data/local/config.php`:
 
 - a test user which can edit pages:
   - username: testuser
