@@ -112,6 +112,17 @@ the cookbook:
 Note that everything related to the devcontainer is within the `.devcontainer/`
 folder, giving a clean separation between devcontainer and your cookbook files.
 
+The `setup` script changed files in the repository to create a new project
+focusing  on the specific cookbook of the project. For example it generates
+a new  README.md file at the root of the project to describe the cookbook
+and how to use and develop in it. All technical instructions are already in the 
+README.md file. The developer only needs to add the  description of the cookbook
+and its usage details.
+
+When done developing the cookbook then you could commit the source files
+in the current project to an own repository dedicated to the cookbook. A good example
+where we also did this is [the ImagePopup cookbook repository](https://github.com/harcokuppens/pmwiki-cookbook-imagepopup/).
+
 ## Local folders binded into container
 
 Mount binding lets you conveniently edit files locally on your docker host, and lets
