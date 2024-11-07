@@ -5,14 +5,12 @@
 <span style="color:red">PUT HERE A SHORT DESCRIPTION OF THE COOKBOOK. THE DETAILS ARE
 AT RECIPE PAGE.</span>
 
-The details of the
-${CONFIG_COOKBOOK_NAME} cookbook are described on
-[the cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/${CONFIG_COOKBOOK_NAME}).
+The details of the ${CONFIG_COOKBOOK_NAME} cookbook are described on
+[the ${CONFIG_COOKBOOK_NAME} cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/${CONFIG_COOKBOOK_NAME}).
 The source code of this cookbook is at
-[the cookbook's repository](${CONFIG_COOKBOOK_REPO_URL}), which also provides a
+[the ${CONFIG_COOKBOOK_NAME} cookbook's repository](${CONFIG_COOKBOOK_REPO_URL}), which also provides a
 devcontainer in which you can see the plugin in action and further develop it. The
-devcontainer is based on the basic pmwiki devcontainer at
-https://github.com/harcokuppens/pmwiki-basic.
+devcontainer is based on the basic pmwiki devcontainer at https://github.com/harcokuppens/pmwiki-basic.
 
 ## Quickstart to view cookbook in action
 
