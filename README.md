@@ -22,12 +22,24 @@
 This repository defines a basic pmwiki installation in devcontainer which you can use
 to develop or test either
 
-- a wiki
+- a wiki (default)
 - a cookbook script
 
-In latter case this repository can be used as an base to publish your cookbook script
-with example pages. This allows you to directly view the cookbook in action using
-docker compose.
+By default the `pmwiki-basic` repository is setup to run a basic pmwiki website. You
+can use it as a sandbox to play with PmWiki, but you can use it to also test an
+existing wiki site with newer software. For example you could setup `pmwiki-basic` to
+use a newer PmWiki distribution, by editing the `PMWIKI_VERSION` in
+`.devcontainer/docker-compose.yml` configuration file, and then mirror in an
+existing's wiki's data using
+[the `pmwiki_mirror_remote_site` helper script](#helper-scripts) in the container.
+
+This repository can also be used as an base for a cookbook specific repository to
+publish your cookbook script with example pages. This allows you to directly view the
+cookbook in action using docker compose. The `pmwiki-basic` repository can be
+transformed into a cookbook repository by using a `setup` script. This `setup` script
+creates a README, new devcontainer config files, and pmwiki pages specific for a
+cookbook repository. The `setup` script makes it easy to create a new a cookbook
+repository.
 
 ## Requirements
 
@@ -112,16 +124,18 @@ the cookbook:
 Note that everything related to the devcontainer is within the `.devcontainer/`
 folder, giving a clean separation between devcontainer and your cookbook files.
 
-The `setup` script changed files in the repository to create a new project
-focusing  on the specific cookbook of the project. For example it generates
-a new  README.md file at the root of the project to describe the cookbook
-and how to use and develop in it. All technical instructions are already in the 
-README.md file. The developer only needs to add the  description of the cookbook
-and its usage details.
+The `setup` script changed files in the repository to create a new project focusing
+on the specific cookbook of the project. For example it generates a new README.md
+file at the root of the project to describe the cookbook and how to use and develop
+in it. All technical instructions are already in the README.md file. The developer
+only needs to add the description of the cookbook and its usage details. For more
+details about the `setup` script see the section
+[What does cookbook setup script do?](#what-does-cookbook-setup-script-do).
 
-When done developing the cookbook then you could commit the source files
-in the current project to an own repository dedicated to the cookbook. A good example
-where we also did this is [the ImagePopup cookbook repository](https://github.com/harcokuppens/pmwiki-cookbook-imagepopup/).
+When done developing the cookbook then you could commit the source files in the
+current project to an own repository dedicated to the cookbook. A good example where
+we also did this is
+[the ImagePopup cookbook repository](https://github.com/harcokuppens/pmwiki-cookbook-imagepopup/).
 
 ## Local folders binded into container
 
@@ -211,30 +225,62 @@ to the container for direct usage within the container.
 
   Imports text content of `INPUTFILE` as a wikipage in `OUTPUTFILE`.
 
-- `pmwiki_remote_ssh_import` `USER@REMOTEHOST:REMOTEPMWIKIDIR`
-
-  **Run this script from a shell in your container.**
+- `pmwiki_mirror_remote_site` `USER@REMOTEHOST:REMOTEPMWIKIDIR`
 
   Mirror a remote site without overwriting the new cookbook we are locally
-  developing. The name of the new cookbook is determined from the `COOKBOOK`
-  environment variable. Your cookbook `X` can consist of directories
-  `pmwiki/cookbook/X/` and `pmwiki/pub/X/`. When the remote site is mirrored we make
-  sure that we keep these folders of your cookbook `X`, because when mirroring from a
-  remote side not having these folders they would get removed! So what you finally
-  get is the remote `cookbook/` and `pub/` folder with your cookbook folders added.
+  developing. **Run this script from a shell in your container.** This can be useful
+  to test a new cookbook within an existing wiki site.
 
-  The argument `USER@REMOTEHOST:REMOTEPMWIKIDIR` is an rsync remote location using
-  the SSH protocol to mirror the files.
+  The full documentation of `pmwiki_mirror_remote_site` is given when run without
+  arguments:
 
-  This script's behavior:
+      $ pmwiki_mirror_remote_site
+      USAGE
 
-  - the name of your cookbook is taken from the COOKBOOK environment variable.
-  - the folder /var/www/html/pmwiki is taken as the local pmwiki folder into which
-    data gets mirrored.
-  - files bigger then 0.5MB are skipped from mirroring
+        pmwiki_mirror_remote_site [-d SUBDIR]* [-c COOKBOOKNAME]* [-s MAXSIZE] [-l LOCALPMWIKIDIR]  USER@REMOTEHOST:REMOTEPMWIKIDIR
 
-  Using this script we can easily check whether your new cookbook also works in an
-  existing production site.
+      DESCRIPTION
+
+        Mirror a remote site without overwriting the new cookbook we are locally developing.
+        In that way we can test our cookbook within the remote setup and data.
+
+        The local site could have a different pmwiki install as the remote site.
+        We can use this to test the remote site in a new pmwiki version.
+        Only added items to an original pmwiki installation are mirrored. That is only the
+        configuration, cookbook extensions,  the wiki pages and its uploads are
+        mirrored from the remote site. The means we mirror only the subfolders local/, cookbook/,
+        wiki.d/, uploads/ and pub/.
+
+        The name of the new cookbook is determined from the COOKBOOK environment variable.
+        Your cookbook X can consist of directories pmwiki/cookbook/X/ and pmwiki/pub/X/. When
+        the remote site is mirrored we make sure that we keep these folders of your cookbook X,
+        because when mirroring from a remote side not having these folders they would get removed!
+        So what you finally get is the remote cookbook/ and pub/ folder with your cookbook folders
+        added.
+
+        The argument USER@REMOTEHOST:REMOTEPMWIKIDIR is an rsync remote location using the SSH protocol
+        to mirror the files.
+
+        This script's behavior:
+          - the name of your cookbook is taken from the COOKBOOK environment variable.
+          - the folder /var/www/html/pmwiki is taken as the local pmwiki folder into which data gets mirrored.
+          - files bigger then 0.5MB are skipped from mirroring
+
+        Options:
+
+         -d SUBDIR
+            Add extra sub directory in remote location to be mirrored. Multiple -d options may be specified.
+         -c COOKBOOKNAME
+            Specify a cookbook to excluded from mirroring. By default the value from the COOKBOOK environment
+            variable is taken, but is ignored if this option is given. Multiple -c options may be specified.
+         -s MAXSIZE
+            Files with this size or larger are not mirrored. Default MAXSIZE=0.5m (half megabyte).
+            With MAXSIZE=0 then all files are mirrored.
+         -l LOCALPMWIKIDIR
+            Specifiy a different location for the local PmWiki directory. Default is /var/www/html/pmwiki.
+
+  By default the name of the cookbook is determined from the `COOKBOOK` environment
+  variable, which by default is already set inside the containers environment.
 
 ## Container configuration files
 
@@ -262,15 +308,14 @@ The following config files are used for the devcontainer
   - `wiki.d` for wiki pages
   - `uploads`: for attachments/pictures in pages
   - `local`: for the `local.php` configuration file
-  - `cookbook/${CONFIG_COOKBOOK}`: for binding only my cookbook's `php` script(s)
-  - `pub/${CONFIG_COOKBOOK}`: for binding only my cookbook's `pub` file(s)
 
-  Actually the `${CONFIG_COOKBOOK}` parameter, which defines the name of your
-  cookbook, is only used in the template file `.devcontainer/docker-compose.yml.tpl`
-  for the file `.devcontainer/docker-compose.yml`, which gets constructed by the
-  `.devcontainer/setup` script. By default the `${CONFIG_COOKBOOK}` parameter is set
-  to `mycookbook` in the config file `.devcontainer/config.bash`. The `COOKBOOK`
-  environment variable inside your container gets also set to this value.
+  When you run the `setup` script to setup the project specificly for a cookbook
+  script, then the modified `.devcontainer/docker-compose.yml` also bind mounts the
+  following folders into the container:
+
+  - `cookbook/${CONFIG_COOKBOOK_NAME}`: for binding only my cookbook's `php`
+    script(s)
+  - `pub/${CONFIG_COOKBOOK_NAME}`: for binding only my cookbook's `pub` file(s)
 
   Note that these bindings could also be defined in the
   `.devcontainer/devcontainer.json` file, but by defining it in the
@@ -283,9 +328,11 @@ The following config files are used for the devcontainer
   version `PMWIKI_VERSION` defined in the `docker-compose.yml` file. The webserver
   used is `apache` on which also `SSL` is enabled. The PmWiki website uses the
   configuration set in `local/config.php` in the local repository folder. It also
-  uses the local folders `wiki.d`, `uploads`,`local` and `cookbook` by bind mounting
-  them in the container. As developer you can then easily place your cookbook script
-  and test pages locally and use them in the container.
+  uses the local folders `wiki.d`, `uploads`, and `local`.
+
+  and `cookbook` by bind mounting them in the container. As developer you can then
+  easily place your cookbook script and test pages locally and use them in the
+  container.
 
   The container is run with the `root` user. This is the same as on a normal linux
   distribution where the apache server is initially run as root to be able to open
@@ -306,39 +353,52 @@ The following config files are used for the devcontainer
 
 ## What does cookbook `setup` script do?
 
-By default the repository is setup to develop a cookbook called `mycookbook`. This is
-convenient so that you directly can start experimenting with a `mycookbook` cookbook.
+As explained in the [Description](#description) above the `pmwiki-basic` repository
+is by default setup to run a basic pmwiki website. But you can use its `setup` script
+to transform the repository in a new cookbook specific repository.
 
-You can change the cookbook name by editing the file:
+The `setup` script does read in configuration parameters from
+`.devcontainer/config.bash` and uses them to fill in the templates in the
+`.devcontainer/templates/` folder.
 
-- `.devcontainer/config.bash`
+The `.devcontainer/config.bash` file contains the following configuration parameters:
 
-  Its content is:
+- `CONFIG_COOKBOOK_NAME`: the name of the cookbook which must start with capital
+  letter (default: "MyCookbook")
+- `CONFIG_COOKBOOK_VERSION`: the version of the cookbook script. By default "1.0.0",
+  but often a date like 20241031 is much more convenient as a version.
+- `CONFIG_COOKBOOK_AUTHOR`: the name of the author of the cookbook script (default:
+  "unknown").
+- `CONFIG_COOKBOOK_REPO_URL`: the url of the github repository of the cookbook.
 
-      export CONFIG_COOKBOOK="mycookbook"
+It creates using the templates the following files:
 
-  which defines the name of your cookbook used in the
-  `.devcontainer/docker-compose.yml` file. Edit in this file the variable
-  `CONFIG_COOKBOOK` to your cookbook name.
-
-  Then run
-
-      .devcontainer/setup
-
-  Which creates `data/pub/${CONFIG_COOKBOOK}/` and
-  `data/cookbook/${CONFIG_COOKBOOK}/${CONFIG_COOKBOOK}.php`  
-  for you and sets the content of `data/local/cookbook.php' to load this cookbook.
-
-  The name should match the subfolders in `data/cookbook/` and `data/pub/`. By
-  default we set this to `mycookbook` and made the matching subdirs in
-  `data/cookbook/` and `data/pub/` in this repository, so that directly can start
-  experimenting with a `mycookbook` cookbook.
-
-Then you can start the container to work on your cookbook. This can be done either
-with our without vscode explained in the next two sections.
-
-The `COOKBOOK` environment variable inside your container gets also set to the name
-of your container.
+- `README.md`: a readme describing the cookbook and explaining how to use it.
+- `.devcontainer/devcontainer.json` and `.devcontainer/docker-compose.yml`:
+  configuration files for the pmwiki container supporting bind mounting of the
+  cookbook script's files at the directories `cookbook/${CONFIG_COOKBOOK_NAME}/` and
+  `pub/${CONFIG_COOKBOOK_NAME}/`, and setting the `COOKBOOK` environment variable
+  inside your container. This variable can then conveniently used by the
+  `pmwiki_mirror_remote_site` script to determine the default cookbook in the
+  container.
+- `cookbook/${CONFIG_COOKBOOK_NAME}/${CONFIG_COOKBOOK_NAME}.php`: a generated
+  cookbook script supporting as starting point an `(:example:)` directive. This is
+  the starting point for your own cookbook.
+- `local/includecookbook.php` config script loaded by PmWiki, which loads the
+  cookbook script.
+- in the `wiki.d/` folder it creates the folowing wiki pages for documenting the
+  cookbook in the wiki:
+  - `Main.HomePage`: describes the cookbook, and immediately demonstrates an example
+    of it
+  - `Main.${CONFIG_COOKBOOK_NAME}`: in the official `PmWiki` site each cookbook is
+    published with a so called recipe page. This page is such a recipe page already
+    setup in its standard format and some values already filled in. The cookbook user
+    only needs to add the description and details of the cookbook. The content of
+    this page can then be used to publish the cookbook at the official PmWiki
+    cookbook site.
+  - `Main.SideBar`: sidebar menu linking above pages, and linking to pages
+    interesting for a cookbook developer. The sidebar focus is on the cookbook and
+    only links pages related to it.
 
 ## Revert setup to original git files
 
