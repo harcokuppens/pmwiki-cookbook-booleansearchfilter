@@ -39,7 +39,9 @@ cookbook in action using docker compose. The `pmwiki-basic` repository can be
 transformed into a cookbook repository by using a `setup` script. This `setup` script
 creates a README, new devcontainer config files, and pmwiki pages specific for a
 cookbook repository. The `setup` script makes it easy to create a new a cookbook
-repository.
+repository, which you can push to another remote repository by changing its remote url with
+
+     git remote set-url origin NEW_REPO_URL
 
 ## Requirements
 
