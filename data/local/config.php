@@ -130,5 +130,4 @@ Markup(
 #-----------------------------------------------
 #  cookbook  
 #-----------------------------------------------
-#@include_once("$FarmD/cookbook/mycookbook/mycookbook.php");
 @include_once("$FarmD/local/includecookbook.php");
