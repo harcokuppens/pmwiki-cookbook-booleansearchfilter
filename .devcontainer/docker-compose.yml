@@ -39,3 +39,7 @@ services:
       - type: bind
         source: ../data/local/
         target: /var/www/html/pmwiki/local/
+      - type: bind
+        source: ../
+        target: /var/www/html/pmwiki/_GIT_REPO_COOKBOOK
+          

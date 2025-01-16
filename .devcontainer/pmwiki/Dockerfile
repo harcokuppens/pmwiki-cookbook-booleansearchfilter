@@ -393,4 +393,9 @@ RUN chmod -R a+rX /etc/ssl/private/
 # USER www-data
 # src: https://docs.docker.com/reference/dockerfile/#user
 
+# Sometimes one clones a git repository inside a docker container, and when it gets cloned
+# inside a bind mounted volume we can have problems met user ownership of the git repository.  Git will refuse
+# to work if folders have different owners, however by applying below command, then git will disable this security
+# feature and everything will work fine.
+RUN git config --system --add safe.directory '*'
 

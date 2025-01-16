@@ -157,6 +157,17 @@ subdirectory is mounted, because as developer you are only interested in that
 specific cookbook. Next to that the `pub/` directory also containers files installed
 by pmwiki which you do not want to mess with.
 
+Normally for a devcontainer the repository as a whole is bind mounted into the
+container. However because for developing PmWiki we have as workspace folder 
+the /var/www/html/pmwiki folder where the docker image already setups a pmwiki
+installation, and we only bind mount our custom wiki
+pages/uploads/config/cookbook and public data into it. However to be able 
+to commit to git from within the container we need also the whole repository
+mounted in the container. Therefore the whole git repository folder is also bind
+mounted but then in the subdirectory:
+
+- `_GIT_REPO_COOKBOOK/`: for binding the whole git repository folder to enable git commits from within the container
+
 ## Open bash shell in container
 
 Because the `docker exec` command by default uses the user defined in `Dockerfile` or
@@ -312,6 +323,7 @@ The following config files are used for the devcontainer
   - `wiki.d` for wiki pages
   - `uploads`: for attachments/pictures in pages
   - `local`: for the `local.php` configuration file
+  - `_GIT_REPO_COOKBOOK`: for binding the whole git repository folder 
 
   When you run the `setup` script to setup the project specificly for a cookbook
   script, then the modified `.devcontainer/docker-compose.yml` also bind mounts the

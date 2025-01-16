@@ -47,3 +47,6 @@ services:
       - type: bind
         source: ../data/pub/${CONFIG_COOKBOOK_NAME_LC}
         target: /var/www/html/pmwiki/pub/${CONFIG_COOKBOOK_NAME_LC}
+      - type: bind
+        source: ../
+        target: /var/www/html/pmwiki/_GIT_REPO_COOKBOOK
