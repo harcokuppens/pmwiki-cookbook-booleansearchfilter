@@ -3,6 +3,7 @@
 $RecipeInfo['booleansearchfilter']['Version'] = '20250328';
 
 
+
 # define js and css files
 #------------------------
 SDV($BooleanSearchFilter_PubDirUrl, "$PubDirUrl/booleansearchfilter");
@@ -49,28 +50,75 @@ function mu_booleansearchfilter($m)
         $elementsCssSelector = html_entity_decode($args['elementsCssSelector']);
     }
 
+    $subscript = "";
+    if (array_key_exists("subscript", $args)) {
+        $subscript = "\"" . html_entity_decode($args['subscript']) . "\"";
+    }
+
+    $setHighlighting = "";
+    if (!empty($args['highlighting']) && $args['highlighting'] == "false") {
+        $setHighlighting = '.setHighlighting(false)';
+    }
+
     // create script tag
     $setSectionElementsCssSelector = "";
     if (! empty($sectionElementsCssSelector)) {
         $setSectionElementsCssSelector = ".setSectionElementsCssSelector(\"$sectionElementsCssSelector\")";
     }
 
-    $scriptTag =  <<<EOT
-    <script type="module">
-    import { BooleanSearch } from "$BooleanSearchFilter_JS";
-    new BooleanSearch().setId("$id")
-      .setAutoForm()$setSectionElementsCssSelector
-      .setElementsCssSelector("$elementsCssSelector")
-      .apply();
-    </script>
-    EOT;
+    // at this place you can activate a custom form which you can customize in the html variable below
+    $customForm = false;
+    if ($customForm) {
+        $custom_subscript = "<b>my custom form</b>";
+        if (array_key_exists("subscript", $args)) {
+            $custom_subscript =  html_entity_decode($args['subscript']);
+        }
+        // $custom_subscript = "<b>my custom form</b>";
+        $html = <<<EOT
+        <div id="{$id}">
+            <form id="{$id}_searchForm">
+                <input id="{$id}_searchbox" type="text" placeholder="Type boolean search expression here..." aria-label="Type boolean search expression here..." style="width: 500px; padding: 5px; border: 1px solid #ccc; border-radius: 4px; " />
+                <button id="{$id}_button" type="button" aria-label="Do Search">
+                Search
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                Case Sensitive <input type="checkbox" id="{$id}_checkbox" >
+                </label>
+                <br>
+                {$custom_subscript}
+            </form>
+            <div id="{$id}_error" style="color: red; font-weight: bold"></div>
+            <div id="{$id}_answer"></div>
+        </div>    
+        EOT;
 
+        $scriptTag =  <<<EOT
+        <script type="module">
+        import { BooleanSearch } from "$BooleanSearchFilter_JS";
+        new BooleanSearch().setId("$id")$setSectionElementsCssSelector
+        .setElementsCssSelector("$elementsCssSelector")$setHighlighting
+        .apply();
+        </script>
+        EOT;
+    } else {
+        // default form which is created automatically by the javascript booleansearchfilter library
+        $html =  <<<EOT
+        <div id="$id"></div>
+        EOT;
+
+        $scriptTag =  <<<EOT
+        <script type="module">
+        import { BooleanSearch } from "$BooleanSearchFilter_JS";
+        new BooleanSearch().setId("$id")
+        .setAutoForm($subscript)$setSectionElementsCssSelector
+        .setElementsCssSelector("$elementsCssSelector")$setHighlighting
+        .apply();
+        </script>
+        EOT;
+    }
 
     $HTMLFooterFmt['booleansearchfilter-html'] = $scriptTag;
-
-    $html =  <<<EOT
-    <div id="$id"></div>
-    EOT;
 
     return Keep($html);
 }

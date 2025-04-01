@@ -1,0 +1,11 @@
+version=pmwiki-2.3.37 ordered=1 urlencoded=1
+agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15
+author=admin
+charset=ISO-8859-1
+csum=
+host=172.22.0.1
+name=Main.HomePage
+rev=12
+targets=Main.Booleansearchfilter
+text=(:Summary:The default home page for the ImagePopup cookbook:)%0a%0a%0aWelcome the booleansearchfilter  cookbook%0a%0a%0a!! Description%0a%0aCookbook script to add a search form on a HTML page to search items using a boolean expression of words, making none-matched items hidden, and making the searched words highlighted in the matched items.%0aThe booleansearchfilter cookbook script is a wrapper around the [[https://www.npmjs.com/package/boolean-search-filter | Boolean Search Filter JavaScript library]]. The @@[=(:booleansearchfilter:)=]@@directive inserts a @@&lt;div&gt;@@ tag, where the library dynamically creates a Boolean search form. You can see the library in action at the following [[https://raw.githack.com/harcokuppens/boolean-search-filter/ac1f976ebc9feac38f76909d952ef25e6996775e/example/index.html | URL]].%0a%0aThe details of the booleansearchfilter cookbook are described at [[https://www.pmwiki.org/wiki/Cookbook/booleansearchfilter | the booleansearchfilter cookbook's recipe page ]]. %0aThis wiki contains also a  [[Main.booleansearchfilter  |local version of the cookbook's recipe page]]. You can use the local version for editing before publishing it on the PmWiki website. %0aThe source code of this cookbook is at [[https://github.com/harcokuppens/pmwiki-cookbook-booleansearchfilter| the cookbook's repository]], which also provides a devcontainer in %0awhich you can see the plugin in action and further develop it. %0aThe devcontainer is based on the basic pmwiki devcontainer at https://github.com/harcokuppens/pmwiki-basic.%0a%0a!! Example%0a%0aThe following pmwiki markup:%0a%0a[@ %0a        (:booleansearchfilter sectionElementsCssSelector='#mycontent > h1' 'elementsCssSelector='li':)%0a@]%0a%0agives below as result.%0a%0a(:booleansearchfilter sectionElementsCssSelector='#mycontent > h1' 'elementsCssSelector='li':)%0a%0a%0aThe above form is in this example applied on the data below:%0a(:includeitems:)
+time=1743495207

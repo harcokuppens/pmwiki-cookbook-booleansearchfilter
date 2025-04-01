@@ -2,15 +2,19 @@
 
 ## Description
 
-<span style="color:red">PUT HERE A SHORT DESCRIPTION OF THE COOKBOOK. THE DETAILS ARE
-AT RECIPE PAGE.</span>
+Cookbook to add a search form on a HTML page to search items using a boolean
+expression of words, making none-matched items hidden, and making the searched words
+highlighted in the matched items.
+
+The booleansearchfilter cookbook script is a wrapper around the [Boolean Search Filter JavaScript library](https://www.npmjs.com/package/boolean-search-filter). The `(:booleansearchfilter:)`directive inserts a `<div>` tag, where the library dynamically creates a Boolean search form. You can see the library in action at the following [URL](https://raw.githack.com/harcokuppens/boolean-search-filter/ac1f976ebc9feac38f76909d952ef25e6996775e/example/index.html).
 
 The details of the booleansearchfilter cookbook are described on
 [the booleansearchfilter cookbook's recipe page](https://www.pmwiki.org/wiki/Cookbook/booleansearchfilter).
 The source code of this cookbook is at
-[the booleansearchfilter cookbook's repository](https://github.com/harcokuppens/pmwiki-cookbook-booleansearchfilter), which also provides a
-devcontainer in which you can see the plugin in action and further develop it. The
-devcontainer is based on the basic pmwiki devcontainer at   https://github.com/harcokuppens/pmwiki-basic.
+[the booleansearchfilter cookbook's repository](https://github.com/harcokuppens/pmwiki-cookbook-booleansearchfilter),
+which also provides a devcontainer in which you can see the plugin in action and
+further develop it. The devcontainer is based on the basic pmwiki devcontainer at
+https://github.com/harcokuppens/pmwiki-basic.
 
 ## Quickstart to view cookbook in action
 
@@ -93,8 +97,7 @@ The following folders will be binded into the container:
 - `wiki.d` for wiki pages
 - `uploads`: for attachments/pictures in pages
 - `local`: for the `local.php` configuration file
-- `cookbook/booleansearchfilter`: for binding only my cookbook's `php`
-  script(s)
+- `cookbook/booleansearchfilter`: for binding only my cookbook's `php` script(s)
 - `pub/booleansearchfilter`: for binding only my cookbook's `pub` file(s)
 
 Only the cookbook subdirectory is mounted, because as developer you are only
